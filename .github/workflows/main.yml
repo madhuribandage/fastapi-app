@@ -1,0 +1,29 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ssh into the server
+      run: ssh ec2-user@13.62.57.142 
+    - name: create folder
+      run: mkdir temp
+    - name: copy or get code to the server
+      run:  wget https://github.com/madhuribandage/fastapi-app/archive/refs/heads/main.zip
+    - name: unzip the zip file
+      run: unzip main.zip
+    - name: install requierements
+      run: cd fastapi-app-main/ & pip install -r requirements.txt
+    - name : run the application
+      run: nohup uvicorn app.main:app  --host 0.0.0.0 &
