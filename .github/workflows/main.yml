@@ -15,15 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: ssh into the server
-      run: ssh ec2-user@13.62.57.142 
-    - name: create folder
-      run: mkdir temp
-    - name: copy or get code to the server
-      run:  wget https://github.com/madhuribandage/fastapi-app/archive/refs/heads/main.zip
-    - name: unzip the zip file
-      run: unzip main.zip
-    - name: install requierements
-      run: cd fastapi-app-main/ & pip install -r requirements.txt
-    - name : run the application
-      run: nohup uvicorn app.main:app  --host 0.0.0.0 &
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Run SSH Command
+      run: ssh -o StrictHostKeyChecking=no ec2-user@13.51.107.242 "ls -la"
