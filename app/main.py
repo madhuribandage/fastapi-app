@@ -11,3 +11,7 @@ def read_root():
 @app.get("/add")
 def add(a: int, b: int):
     return {"result": a + b}
+
+@app.get("/sub")
+def add(a: int, b: int):
+    return {"result": a - b}
