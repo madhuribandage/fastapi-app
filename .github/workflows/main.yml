@@ -24,6 +24,6 @@ jobs:
     - name: unzip the code 
       run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/ && unzip main.zip"
     - name: install requierements
-      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd fastapi-app-main/ && pip install -r requirements.txt"
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/fastapi-app-main/ && pip install -r requirements.txt"
     - name : run the application
-      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd fastapi-app-main/ && nohup uvicorn app.main:app  --host 0.0.0.0 &""
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/fastapi-app-main/ && nohup uvicorn app.main:app  --host 0.0.0.0 &""
