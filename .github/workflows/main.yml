@@ -18,12 +18,12 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Run SSH Command
-      run: ssh -o StrictHostKeyChecking=no ec2-user@13.51.107.242 "ls -la"
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "ls -la"
     - name: copy code to server
-      run: ssh -o StrictHostKeyChecking=no ec2-user@13.51.107.242 "cd temp/ & wget https://github.com/madhuribandage/fastapi-app/archive/refs/heads/main.zip"
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/ && wget https://github.com/madhuribandage/fastapi-app/archive/refs/heads/main.zip"
     - name: unzip the code 
-      run: ssh -o StrictHostKeyChecking=no ec2-user@13.51.107.242 "cd temp/ & unzip main.zip"
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/ && unzip main.zip"
     - name: install requierements
-      run: ssh -o StrictHostKeyChecking=no ec2-user@13.51.107.242 "cd fastapi-app-main/ & pip install -r requirements.txt"
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd fastapi-app-main/ && pip install -r requirements.txt"
     - name : run the application
-      run: ssh -o StrictHostKeyChecking=no ec2-user@13.51.107.242 "cd fastapi-app-main/ & nohup uvicorn app.main:app  --host 0.0.0.0 &""
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd fastapi-app-main/ && nohup uvicorn app.main:app  --host 0.0.0.0 &""
