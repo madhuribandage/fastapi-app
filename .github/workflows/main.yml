@@ -17,8 +17,10 @@ jobs:
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Run SSH Command
-      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "ls -la"
+    - name: cleanup temp dir
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/ && rm -rf *"
+    - name: stop unvicorn
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "pkill -f "uvicorn app.main:app" || true"
     - name: copy code to server
       run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/ && wget https://github.com/madhuribandage/fastapi-app/archive/refs/heads/main.zip"
     - name: unzip the code 
@@ -26,4 +28,4 @@ jobs:
     - name: install requierements
       run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/fastapi-app-main/ && pip install -r requirements.txt"
     - name : run the application
-      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/fastapi-app-main/ && nohup uvicorn app.main:app  --host 0.0.0.0 &"
+      run: ssh -o StrictHostKeyChecking=no ec2-user@16.171.240.114 "cd temp/fastapi-app-main/ && nohup uvicorn app.main:app --host 0.0.0.0 > app.log 2>&1 < /dev/null & disown"
